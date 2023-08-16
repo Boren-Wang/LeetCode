@@ -29,24 +29,44 @@ public class ThreeSum {
         // [-4,-1,-1,0,1,2]
         Arrays.sort(a); 
         
-        // time complextiy: O(n^2logn)
+        // // time complextiy: O(n^2logn) binary search
+        // for(int i=0; i<a.length-2; i++) {
+        //     if(i>0 && a[i]==a[i-1]) continue;
+        //     for(int j=i+1; j<a.length-1; j++) {
+        //         if(j>i+1 && a[j]==a[j-1]) continue;
+        //         if(a[i]+a[j]>0) break;
+        //         int target = 0-a[i]-a[j];
+        //         int l=j+1;
+        //         int r=a.length-1;
+        //         while(l<=r) {
+        //             int m = l+(r-l)/2;
+        //             if(a[m]==target) {
+        //                 res.add(Arrays.asList(a[i],a[j],a[m]));
+        //             } else if(a[m]>target) {
+        //                 r=m-1;
+        //             } else {
+        //                 l=m+1;
+        //             }
+        //         }
+        //     }
+        // }
+
+        // time complextiy: O(n^2) two pointers
         for(int i=0; i<a.length-2; i++) {
             if(i>0 && a[i]==a[i-1]) continue;
-            for(int j=i+1; j<a.length-1; j++) {
-                if(j>i+1 && a[j]==a[j-1]) continue;
-                if(a[i]+a[j]>0) break;
-                int target = 0-a[i]-a[j];
-                int l=j+1;
-                int r=a.length-1;
-                while(l<=r) {
-                    int m = l+(r-l)/2;
-                    if(a[m]==target) {
-                        res.add(Arrays.asList(a[i],a[j],a[m]));
-                    } else if(a[m]>target) {
-                        r=m-1;
-                    } else {
-                        l=m+1;
-                    }
+            int x = a[i];
+            int l = i+1;
+            int r = a.length-1;
+            while(l<r) {
+                int sum = x+a[i]+a[j];
+                if(sum>0) r--;
+                else if(sum<0) l++;
+                else {
+                    res.add(Arrays.asList(a[l],a[r],x));
+                    l++;
+                    r--;
+                    while(l<r && a[l]==a[l-1]) l++;
+                    while(l<r && a[r]==a[r+1]) r--;
                 }
             }
         }
